@@ -5,7 +5,7 @@ import os, re, html
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 
-REZ = "http://wioskarybackawilga.pl/index.php/rezerwacja-lowisko"
+REZ = "stanowiska.html"
 FB = "https://www.facebook.com/lowiskowodnakraina"
 MAP_BIG = ("https://maps.google.pl/maps?f=q&amp;source=embed&amp;hl=pl&amp;geocode=&amp;q=stawowa+wilga&amp;aq=&amp;sll=52.24755,21.193789"
            "&amp;sspn=5.590628,16.907959&amp;ie=UTF8&amp;hq=stawowa+wilga&amp;hnear=&amp;t=m&amp;cid=268278736515707126"
@@ -99,8 +99,8 @@ def page(slug, title, desc, body, current=None):
   <div class="wrap">
     <a class="brand" href="index.html" title="Łowisko Wodna Kraina"><img src="img/logo.png" alt="Łowisko Wodna Kraina w Wildze" width="308" height="150"></a>
     <button class="burger" aria-expanded="false" aria-controls="nav">Menu ☰</button>
-    <nav class="nav" id="nav" aria-label="Menu główne">{nav}<a class="btn-rez" href="{REZ}" target="_blank" rel="noopener">Rezerwacja</a></nav>
-    <a class="btn-rez" href="{REZ}" target="_blank" rel="noopener">Rezerwacja</a>
+    <nav class="nav" id="nav" aria-label="Menu główne">{nav}<a class="btn-rez" href="{REZ}">Rezerwacja</a></nav>
+    <a class="btn-rez" href="{REZ}">Rezerwacja</a>
   </div>
 </header>
 
@@ -204,7 +204,7 @@ f"""
         <span>Dla Karpiarzy</span><b>24h</b>
       </div>
       <div class="hero-actions rise d4">
-        <a class="btn btn-gold" href="{REZ}" target="_blank" rel="noopener">Mapa stanowisk - rezerwacja</a>
+        <a class="btn btn-gold" href="{REZ}">Mapa stanowisk - rezerwacja</a>
         <a class="btn" href="oplaty.html">Cennik</a>
       </div>
     </div>
@@ -237,7 +237,7 @@ f"""
     </div>
     <div>
       <figure class="mapblock" style="margin:0"><img src="img/mapka.jpg" alt="Mapka naszych łowisk: staw Alka-Bekas 15 ha, Czajka 3,5 ha, Kulik 25 ha, Irysowski 36 ha" width="560" height="754"></figure>
-      <a class="reserve" href="{REZ}" target="_blank" rel="noopener">
+      <a class="reserve" href="{REZ}">
         <span><h3>Mapa Stanowisk</h3><p>kliknij i wybierz stanowisko</p></span>
         <span class="arrow">→</span>
       </a>
@@ -576,4 +576,9 @@ if __name__ == "__main__":
     for slug, title in GAL_META.items():
         with open(os.path.join(ROOT, f"{slug}.html"), "w", encoding="utf-8") as fh:
             fh.write(page(slug, title, "Galeria zdjęć łowiska Wodna Kraina w Wildze.", gallery_body(slug, f"{slug}.html"), "galeria.html"))
+    import _stanowiska
+    with open(os.path.join(ROOT, "stanowiska.html"), "w", encoding="utf-8") as fh:
+        fh.write(page("stanowiska", "Mapa Stanowisk - Rezerwacja - Łowisko Wodna Kraina - Wilga",
+                      "Interaktywna mapa stanowisk łowiska Wodna Kraina w Wildze: zbiorniki Duży, Wyspy i Wake, opisy stanowisk i domków.",
+                      _stanowiska.body(head), None))
     print("OK:", ", ".join(list(PAGES) + list(GAL_META)))
